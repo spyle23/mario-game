@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.spyle.objets.Bloc;
 import com.spyle.objets.Objet;
+import com.spyle.objets.Piece;
 import com.spyle.objets.TuyauRouge;
 import com.spyle.personnages.Mario;
 
@@ -62,12 +63,24 @@ public class Scene extends JPanel {
 	public Bloc bloc11;
 	public Bloc bloc12;
 	
+	public Piece piece1;
+	public Piece piece2;
+	public Piece piece3;
+	public Piece piece4;
+	public Piece piece5;
+	public Piece piece6;
+	public Piece piece7;
+	public Piece piece8;
+	public Piece piece9;
+	public Piece piece10;
+	
 	private ImageIcon icoChateau2;
 	private Image imgChateau2;
 	private ImageIcon icoDrapeau;
 	private Image imgDrapeau;
 	
 	private ArrayList<Objet> tabOjets;
+	private ArrayList<Piece> tabPieces;
 	
 	
 	//**** CONSTRUCTEUR ****//	
@@ -118,12 +131,24 @@ public class Scene extends JPanel {
 		bloc11 = new Bloc(3660, 150);
 		bloc12 = new Bloc(4090, 210);
 		
+		piece1 = new Piece(402, 145);
+		piece2 = new Piece(1200, 150);
+		piece3 = new Piece(1300, 160);
+		piece4 = new Piece(1400, 145);
+		piece5 = new Piece(1600, 165);
+		piece6 = new Piece(1800, 150);
+		piece7 = new Piece(2000, 230);
+		piece8 = new Piece(3500, 110);
+		piece9 = new Piece(4090, 180);
+		piece10 = new Piece(4500, 165);
+		
 		this.icoChateau2 = new ImageIcon(getClass().getResource("/images/chateauFin.png")); 
 		this.imgChateau2 = this.icoChateau2.getImage();
 		this.icoDrapeau = new ImageIcon(getClass().getResource("/images/drapeau.png")); 
 		this.imgDrapeau = this.icoDrapeau.getImage(); 
 		
 		tabOjets = new ArrayList<Objet>();
+		tabPieces = new ArrayList<Piece>();
 		
 		
 		tabOjets.add(tuyauRouge1);
@@ -146,6 +171,17 @@ public class Scene extends JPanel {
 		tabOjets.add(bloc10);
 		tabOjets.add(bloc11);
 		tabOjets.add(bloc12);
+		
+		tabPieces.add(piece1);
+		tabPieces.add(piece2);
+		tabPieces.add(piece3);
+		tabPieces.add(piece4);
+		tabPieces.add(piece5);
+		tabPieces.add(piece6);
+		tabPieces.add(piece7);
+		tabPieces.add(piece8);
+		tabPieces.add(piece9);
+		tabPieces.add(piece10);
 		
 		this.setFocusable(true);
 		this.requestFocusInWindow();
@@ -202,12 +238,17 @@ public class Scene extends JPanel {
 		super.paintComponent(g);
 		Graphics g2 = (Graphics2D)g;
 
-		// Détection contact mario avec un objet
-//		if(this.mario.proche(this.bloc1)){this.mario.contact(bloc1);}
-// 		if(this.mario.proche(this.tuyauRouge1)){this.mario.contact(tuyauRouge1);}
+		//Détéction des contacts avec les objets
 		for(int i=0; i<tabOjets.size(); i++) {
 			if(this.mario.proche(this.tabOjets.get(i))) {
 				this.mario.contact(this.tabOjets.get(i));
+			}
+		}
+		for(int i=0; i<tabPieces.size(); i++) {
+			if(this.mario.proche(this.tabPieces.get(i))) {
+				if(this.mario.contactPiece(this.tabPieces.get(i))) {
+					this.tabPieces.remove(i);
+				}
 			}
 		}
 		
@@ -216,6 +257,9 @@ public class Scene extends JPanel {
 		if(this.xPos >= 0 && this.xPos<=4330) {
 			for(int i=0; i<tabOjets.size(); i++) {
 				this.tabOjets.get(i).deplacement();
+			}
+			for(int i=0; i<tabPieces.size(); i++) {
+				this.tabPieces.get(i).deplacement();
 			}
 		}
 		
@@ -229,8 +273,11 @@ public class Scene extends JPanel {
  		
  		
  		//image dans la liste des objets
- 		for(int i=0; i<tabOjets.size(); i++) {
+ 		for(int i=0; i<tabOjets.size(); i++) {	
  			g2.drawImage(this.tabOjets.get(i).getImgObjet(), this.tabOjets.get(i).getX(), this.tabOjets.get(i).getY(), null);
+ 		}
+ 		for(int i=0; i<tabPieces.size(); i++) {
+ 			g2.drawImage(this.tabPieces.get(i).bouge(), this.tabPieces.get(i).getX(), this.tabPieces.get(i).getY(), null);
  		}
  		
  		//image de chateau de fin

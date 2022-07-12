@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 
 import com.spyle.jeu.Main;
 import com.spyle.objets.Objet;
+import com.spyle.objets.Piece;
 
 public class Mario extends Personnage{
 
@@ -89,5 +90,11 @@ public class Mario extends Personnage{
 		}else if(super.contactDessus(objet) == false && this.saut == false){
 			Main.scene.setHautPlafond(0);// altitude du plafond initial (ciel)
 		}     
+	}
+	public boolean contactPiece(Piece piece) {
+		if(super.contactArriere(piece) || super.contactAvant(piece) || super.contactDessous(piece) || super.contactDessus(piece)) {
+			return true;
+		}
+		return false;
 	}
 }
