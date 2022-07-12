@@ -46,9 +46,9 @@ public class Mario extends Personnage{
 	
 		this.compteurSaut++;
 		// Montée du saut		
-		if(this.compteurSaut <= 35){
+		if(this.compteurSaut <= 45){
 			if(this.getY() > Main.scene.getHautPlafond()){this.setY(this.getY() - 4);}
-			else{this.compteurSaut = 36;}			
+			else{this.compteurSaut = 46;}			
 			if(this.isVersDroite() == true){str = "/images/marioSautDroite.png";}
 			else{str = "/images/marioSautGauche.png";}	
 			

@@ -1,5 +1,9 @@
 package com.spyle.objets;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import com.spyle.jeu.Main;
 
 public class Objet {
@@ -7,6 +11,8 @@ public class Objet {
 	//**** VARIABLES ****//
 	private int largeur, hauteur; //dimensions de l'objet
 	private int x, y; //position de l'objet
+	protected Image imgObjet;
+	protected ImageIcon icoObjet;
 	
 	
 	//**** CONSTRUCTEUR ****//	
@@ -29,6 +35,11 @@ public class Objet {
 	public int getHauteur() {return hauteur;}
 	
 	
+	
+	
+	public Image getImgObjet() {return imgObjet;}
+
+
 	//**** SETTERS ****//	
 	public void setX(int x) {this.x = x;}
 
