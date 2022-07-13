@@ -10,7 +10,6 @@ public class Clavier implements KeyListener{
 	//**** METHODES **//
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("etat de mario: "+ Main.scene.mario.isVivant());
 		if(Main.scene.mario.isVivant()) {
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT){ // flèche droite
 				   

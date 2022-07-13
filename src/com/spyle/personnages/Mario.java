@@ -128,8 +128,6 @@ public class Mario extends Personnage{
 			}
 		}
 		if(super.contactDessous(personnage)) {
-			System.out.println("mario: " + this.vivant);
-			System.out.println("marche mario: " + this.isMarche());
 			personnage.setMarche(false);
 			personnage.setVivant(false);
 		}

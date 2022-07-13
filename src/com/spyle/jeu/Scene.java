@@ -1,5 +1,6 @@
 package com.spyle.jeu;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import com.spyle.affichage.Score;
 import com.spyle.objets.Bloc;
 import com.spyle.objets.Objet;
 import com.spyle.objets.Piece;
@@ -98,6 +100,9 @@ public class Scene extends JPanel {
 	private ArrayList<Tortue> tabTortues;
 	private ArrayList<Champignon> tabChampignons;
 	
+	private Score score;
+	private Font police;
+	
 	
 	//**** CONSTRUCTEUR ****//	
 	public Scene(){
@@ -121,6 +126,8 @@ public class Scene extends JPanel {
 		this.imgDepart = this.icoDepart.getImage();
 		
 		mario = new Mario(300, 245);
+		score = new Score();
+		police = new Font("ARIAL", Font.PLAIN, 18);
 		champignon1 = new Champignon(800, 263);
 		champignon2 = new Champignon(1400, 263);
 		champignon3 = new Champignon(1700, 263);
@@ -296,6 +303,7 @@ public class Scene extends JPanel {
 			if(this.mario.proche(this.tabPieces.get(i))) {
 				if(this.mario.contactPiece(this.tabPieces.get(i))) {
 					this.tabPieces.remove(i);
+					this.score.setScore(this.score.getScore() + 1);
 				}
 			}
 		}
@@ -381,6 +389,9 @@ public class Scene extends JPanel {
  	 			g2.drawImage(this.tabTortues.get(j).meurt(), this.tabTortues.get(j).getX(), this.tabTortues.get(j).getY()+30, null);
  	 		}
  		}
+ 		//intégration de la police de font
+ 		g2.setFont(police);
+ 		g2.drawString(this.score.getScore() + " pièce(s) trouvée(s) sur" + this.score.getNBR_TOTAL_SCORE(), 460, 25);
  
 	}
 }
