@@ -12,6 +12,7 @@ import com.spyle.objets.Bloc;
 import com.spyle.objets.Objet;
 import com.spyle.objets.Piece;
 import com.spyle.objets.TuyauRouge;
+import com.spyle.personnages.Champignon;
 import com.spyle.personnages.Mario;
 
 
@@ -40,6 +41,7 @@ public class Scene extends JPanel {
 	private int hauteurPlafond; // hauteur courante du plafond
 	
 	public Mario mario;
+	public Champignon champignon;
 	public TuyauRouge tuyauRouge1;
 	public TuyauRouge tuyauRouge2;
 	public TuyauRouge tuyauRouge3;
@@ -105,7 +107,7 @@ public class Scene extends JPanel {
 		this.imgDepart = this.icoDepart.getImage();
 		
 		mario = new Mario(300, 245);
-		
+		champignon = new Champignon(800, 263);
 		
 		tuyauRouge1 = new TuyauRouge(600, 230);
 		tuyauRouge2 = new TuyauRouge(1000, 230);
@@ -243,6 +245,9 @@ public class Scene extends JPanel {
 			if(this.mario.proche(this.tabOjets.get(i))) {
 				this.mario.contact(this.tabOjets.get(i));
 			}
+			if(this.champignon.proche(this.tabOjets.get(i))) {
+				this.champignon.contact(this.tabOjets.get(i));
+			}
 		}
 		for(int i=0; i<tabPieces.size(); i++) {
 			if(this.mario.proche(this.tabPieces.get(i))) {
@@ -261,6 +266,7 @@ public class Scene extends JPanel {
 			for(int i=0; i<tabPieces.size(); i++) {
 				this.tabPieces.get(i).deplacement();
 			}
+			this.champignon.deplacement();
 		}
 		
 		// Image de fond
@@ -287,6 +293,12 @@ public class Scene extends JPanel {
  		
     	// Image de mario
  		if(this.mario.isSaut()){g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);}
- 		else{g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);}	
+ 		else{g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);}
+ 		
+ 		g2.drawImage(this.champignon.marche("champ", 45), this.champignon.getX(), this.champignon.getY(), null);
+ 		
+ 		
+ 		
+ 		
 	}
 }
