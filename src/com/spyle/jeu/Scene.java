@@ -14,6 +14,7 @@ import com.spyle.objets.Piece;
 import com.spyle.objets.TuyauRouge;
 import com.spyle.personnages.Champignon;
 import com.spyle.personnages.Mario;
+import com.spyle.personnages.Tortue;
 
 
 //***** La classe Scene est le classe la plus importante de l'application. *****//
@@ -41,7 +42,18 @@ public class Scene extends JPanel {
 	private int hauteurPlafond; // hauteur courante du plafond
 	
 	public Mario mario;
-	public Champignon champignon;
+	public Champignon champignon1;
+	public Champignon champignon2;
+	public Champignon champignon3;
+	public Champignon champignon4;
+	public Champignon champignon5;
+	
+	public Tortue tortue1;
+	public Tortue tortue2;
+	public Tortue tortue3;
+	public Tortue tortue4;
+	
+	
 	public TuyauRouge tuyauRouge1;
 	public TuyauRouge tuyauRouge2;
 	public TuyauRouge tuyauRouge3;
@@ -83,6 +95,8 @@ public class Scene extends JPanel {
 	
 	private ArrayList<Objet> tabOjets;
 	private ArrayList<Piece> tabPieces;
+	private ArrayList<Tortue> tabTortues;
+	private ArrayList<Champignon> tabChampignons;
 	
 	
 	//**** CONSTRUCTEUR ****//	
@@ -107,7 +121,17 @@ public class Scene extends JPanel {
 		this.imgDepart = this.icoDepart.getImage();
 		
 		mario = new Mario(300, 245);
-		champignon = new Champignon(800, 263);
+		champignon1 = new Champignon(800, 263);
+		champignon2 = new Champignon(1400, 263);
+		champignon3 = new Champignon(1700, 263);
+		champignon4 = new Champignon(3500, 263);
+		champignon5 = new Champignon(4000, 263);
+		
+		
+		tortue1 = new Tortue(650, 243);
+		tortue2 = new Tortue(1800, 243);
+		tortue3 = new Tortue(2300, 243);
+		tortue4 = new Tortue(4100, 243);
 		
 		tuyauRouge1 = new TuyauRouge(600, 230);
 		tuyauRouge2 = new TuyauRouge(1000, 230);
@@ -151,7 +175,19 @@ public class Scene extends JPanel {
 		
 		tabOjets = new ArrayList<Objet>();
 		tabPieces = new ArrayList<Piece>();
+		tabChampignons = new ArrayList<Champignon>();
+		tabTortues = new ArrayList<Tortue>();
 		
+		tabChampignons.add(champignon1);
+		tabChampignons.add(champignon2);
+		tabChampignons.add(champignon3);
+		tabChampignons.add(champignon4);
+		tabChampignons.add(champignon5);
+		
+		tabTortues.add(tortue1);
+		tabTortues.add(tortue2);
+		tabTortues.add(tortue3);
+		tabTortues.add(tortue4);
 		
 		tabOjets.add(tuyauRouge1);
 		tabOjets.add(tuyauRouge2);
@@ -245,8 +281,15 @@ public class Scene extends JPanel {
 			if(this.mario.proche(this.tabOjets.get(i))) {
 				this.mario.contact(this.tabOjets.get(i));
 			}
-			if(this.champignon.proche(this.tabOjets.get(i))) {
-				this.champignon.contact(this.tabOjets.get(i));
+			for(int j=0; j<tabChampignons.size(); j++) {
+				if(this.tabChampignons.get(j).proche(this.tabOjets.get(i))) {
+					this.tabChampignons.get(j).contact(this.tabOjets.get(i));
+				}
+			}
+			for(int k=0; k<tabTortues.size(); k++) {
+				if(this.tabTortues.get(k).proche(this.tabOjets.get(i))) {
+					this.tabTortues.get(k).contact(this.tabOjets.get(i));
+				}
 			}
 		}
 		for(int i=0; i<tabPieces.size(); i++) {
@@ -257,6 +300,27 @@ public class Scene extends JPanel {
 			}
 		}
 		
+		//contact des tortues et des champignons
+		for(int i=0; i<tabChampignons.size(); i++) {
+			if(this.mario.proche(this.tabChampignons.get(i))) {
+				this.mario.contactPerso(this.tabChampignons.get(i));
+			}
+			for(int j=0; j<tabTortues.size(); j++) {
+				if(this.tabChampignons.get(i).proche(this.tabTortues.get(j))) {
+					this.tabChampignons.get(i).contactTortue(this.tabTortues.get(j));
+				}
+				if(this.tabTortues.get(j).proche(this.tabChampignons.get(i))) {
+					this.tabTortues.get(j).contactChamp(this.tabChampignons.get(i));
+				}
+			}
+		}
+		for(int j=0; j<tabTortues.size(); j++) {
+			if(this.mario.proche(this.tabTortues.get(j))) {
+				this.mario.contactPerso(this.tabTortues.get(j));
+			}
+		}
+		
+		
 		// Déplacement de tous les objets "fixes" du jeu
 		this.deplacementFond();
 		if(this.xPos >= 0 && this.xPos<=4330) {
@@ -266,7 +330,12 @@ public class Scene extends JPanel {
 			for(int i=0; i<tabPieces.size(); i++) {
 				this.tabPieces.get(i).deplacement();
 			}
-			this.champignon.deplacement();
+			for(int i=0; i<tabChampignons.size(); i++) {
+				this.tabChampignons.get(i).deplacement();
+			}
+			for(int i=0; i<tabTortues.size(); i++) {
+				this.tabTortues.get(i).deplacement();
+			}
 		}
 		
 		// Image de fond
@@ -295,10 +364,23 @@ public class Scene extends JPanel {
  		if(this.mario.isSaut()){g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);}
  		else{g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);}
  		
- 		g2.drawImage(this.champignon.marche("champ", 45), this.champignon.getX(), this.champignon.getY(), null);
- 		
- 		
- 		
- 		
+ 		//Image Champignons
+ 		for(int i=0; i<tabChampignons.size(); i++) {
+ 			if(this.tabChampignons.get(i).isVivant()) {
+ 	 			g2.drawImage(this.tabChampignons.get(i).marche("champ", 45), this.tabChampignons.get(i).getX(), this.tabChampignons.get(i).getY(), null);
+ 	 		}else {
+ 	 			g2.drawImage(this.tabChampignons.get(i).meurt(), this.tabChampignons.get(i).getX(), this.tabChampignons.get(i).getY()+20, null);
+ 	 		}
+ 		} 		
+
+ 		//Image Tortues
+ 		for(int j=0; j<tabTortues.size(); j++) {
+ 			if(this.tabTortues.get(j).isVivant()) {
+ 	 			g2.drawImage(this.tabTortues.get(j).marche("tortue", 30), this.tabTortues.get(j).getX(), this.tabTortues.get(j).getY(), null);
+ 	 		}else {
+ 	 			g2.drawImage(this.tabTortues.get(j).meurt(), this.tabTortues.get(j).getX(), this.tabTortues.get(j).getY()+30, null);
+ 	 		}
+ 		}
+ 
 	}
 }

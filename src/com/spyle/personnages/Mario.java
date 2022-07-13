@@ -118,6 +118,23 @@ public class Mario extends Personnage{
 			Main.scene.setHautPlafond(0);// altitude du plafond initial (ciel)
 		}     
 	}
+	
+	//Contact de mario avec un enemi
+	public void contactPerso(Personnage personnage) {
+		if(personnage.isVivant()) {
+			if(super.contactAvant(personnage) || super.contactArriere(personnage)) {			
+				this.setVivant(false);
+				this.setMarche(false);
+			}
+		}
+		if(super.contactDessous(personnage)) {
+			System.out.println("mario: " + this.vivant);
+			System.out.println("marche mario: " + this.isMarche());
+			personnage.setMarche(false);
+			personnage.setVivant(false);
+		}
+	}
+	
 	public boolean contactPiece(Piece piece) {
 		if(super.contactArriere(piece) || super.contactAvant(piece) || super.contactDessous(piece) || super.contactDessus(piece)) {
 			return true;

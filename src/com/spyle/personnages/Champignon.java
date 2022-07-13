@@ -55,10 +55,12 @@ public class Champignon extends Personnage implements Runnable {
 		} catch (InterruptedException e) {}
 		
 		while(true) {
-			this.bouge();
-			try {
-				Thread.sleep(PAUSE);
-			} catch (InterruptedException e) {}
+			if(this.vivant) {
+				this.bouge();
+				try {
+					Thread.sleep(PAUSE);
+				} catch (InterruptedException e) {}
+			}
 		}
 	}
 		
@@ -71,5 +73,31 @@ public class Champignon extends Personnage implements Runnable {
 				this.dxChamp = 1;
 			}
 		}
-	    
+		//contact avec la tortue
+		public void contactTortue(Tortue tortue) {
+			if(super.contactAvant(tortue) && this.isVersDroite()) {
+				this.setVersDroite(false);
+				this.dxChamp = -1;
+			}else if(super.contactArriere(tortue) && !this.isVersDroite()) {
+				this.setVersDroite(true);
+				this.dxChamp = 1;
+			}
+		}
+		
+		public Image meurt() {
+			ImageIcon ico;
+			Image img;
+			String str;
+			
+			if(this.isVersDroite()) {
+				str = "/images/champEcraseDroite.png";
+			}else {
+				str = "/images/champEcraseGauche.png";
+			}
+			
+			ico = new ImageIcon(getClass().getResource(str));
+			img = ico.getImage();
+			
+			return img;
+		}
 }

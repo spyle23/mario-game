@@ -15,6 +15,7 @@ public class Personnage {
 	protected boolean marche; // vrai quand le personnage marche
 	protected boolean versDroite; // vrai quand le personnage est tourné vers la droite
 	public int compteur; // compteur des pas du personnage
+	protected boolean vivant;
 	
 
 	//**** CONSTRUCTEUR ****//
@@ -25,6 +26,7 @@ public class Personnage {
 		this.largeur = largeur;
 		this.hauteur = hauteur;		
 		this.compteur = 0;
+		this.vivant = true;
 		this.marche = false;
 		this.versDroite = true;		
 	}
@@ -45,7 +47,9 @@ public class Personnage {
 
 	public int getCompteur() {return compteur;}
 	
-	
+	public boolean isVivant() {return vivant;}
+
+
 	//**** SETTERS ****//	
 	public void setX(int x) {this.x = x;}
 
@@ -57,6 +61,7 @@ public class Personnage {
 
 	public void setCompteur(int compteur) {this.compteur = compteur;}
 	
+	public void setVivant(boolean vivant) {this.vivant = vivant;}
 	
 	 //**** METHODES ****//
 	public Image marche(String nom, int frequence){
@@ -122,6 +127,33 @@ public class Personnage {
     public boolean proche(Objet objet){  	
     	if((this.x > objet.getX() - 10 && this.x < objet.getX() + objet.getLargeur() + 10) 
     	|| (this.x + this.largeur > objet.getX() - 10 && this.x + this.largeur < objet.getX() + objet.getLargeur() + 10)){return true;}
+    	else{return false;}
+    }
+    
+    
+    // Détection contact à droite d'un personnage
+    protected boolean contactAvant(Personnage personnage){
+	    if(this.x + this.largeur < personnage.getX() || this.x + this.largeur > personnage.getX() + 5 ||
+	       this.y + this.hauteur <= personnage.getY() || this.y >= personnage.getY() + personnage.getHauteur()){return false;}
+		else{return true;}
+	} 
+    
+    // Détection contact à gauche d'un personnage
+    protected boolean contactArriere(Personnage personnage){		
+		if(this.x > personnage.getX() + personnage.getLargeur() || this.x + this.largeur < personnage.getX() + personnage.getLargeur() - 5 || 
+		   this.y + this.hauteur <= personnage.getY() || this.y >= personnage.getY() + personnage.getHauteur()){return false;}
+		else{return true;}
+	}
+    // contact de mario avec un personnage en dessous
+    protected boolean contactDessous(Personnage personnage){		
+		if(this.x + this.largeur < personnage.getX() + 5 || this.x > personnage.getX() + personnage.getLargeur() - 5 || 
+		   this.y + this.hauteur < personnage.getY() || this.y + this.hauteur > personnage.getY() + 5){return false;}
+		else{return true;}		
+	}
+    
+    public boolean proche(Personnage personnage){  	
+    	if((this.x > personnage.getX() - 10 && this.x < personnage.getX() + personnage.getLargeur() + 10) 
+    	|| (this.x + this.largeur > personnage.getX() - 10 && this.x + this.largeur < personnage.getX() + personnage.getLargeur() + 10)){return true;}
     	else{return false;}
     }
 }
