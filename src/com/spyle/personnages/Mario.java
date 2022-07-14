@@ -139,4 +139,16 @@ public class Mario extends Personnage{
 		}
 		return false;
 	}
+	public Image meurt() {
+		ImageIcon ico;
+		Image img;
+		String str;
+		
+		str = "/images/marioMeurt.png";
+		
+		ico = new ImageIcon(getClass().getResource(str));
+		img = ico.getImage();
+		
+		return img;
+	}
 }

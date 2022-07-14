@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import com.spyle.affichage.Decount;
 import com.spyle.affichage.Score;
 import com.spyle.objets.Bloc;
 import com.spyle.objets.Objet;
@@ -102,6 +103,7 @@ public class Scene extends JPanel {
 	
 	private Score score;
 	private Font police;
+	private Decount decount;
 	
 	
 	//**** CONSTRUCTEUR ****//	
@@ -128,6 +130,7 @@ public class Scene extends JPanel {
 		mario = new Mario(300, 245);
 		score = new Score();
 		police = new Font("ARIAL", Font.PLAIN, 18);
+		decount = new Decount();
 		champignon1 = new Champignon(800, 263);
 		champignon2 = new Champignon(1400, 263);
 		champignon3 = new Champignon(1700, 263);
@@ -262,6 +265,14 @@ public class Scene extends JPanel {
 
 
 	//**** METHODES ****//
+	
+	private boolean partieGagne() {
+		if(this.decount.getCount()>0 && this.mario.isVivant() && this.score.getScore() == 10) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void deplacementFond(){ // Déplacement des images "fixes" de l'écran simulant le déplacement de mario 
 		
 		if(this.xPos >= 0 && this.xPos<=4330){
@@ -369,8 +380,12 @@ public class Scene extends JPanel {
  		g2.drawImage(this.imgDrapeau, 4650 - this.xPos, 115, null);
  		
     	// Image de mario
- 		if(this.mario.isSaut()){g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);}
- 		else{g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);}
+ 		if(this.mario.isVivant()) {
+ 			if(this.mario.isSaut()){g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);}
+ 	 		else{g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);}
+ 		}else {
+ 			g2.drawImage(this.mario.meurt(), this.mario.getX(), this.mario.getY(), null);
+ 		}
  		
  		//Image Champignons
  		for(int i=0; i<tabChampignons.size(); i++) {
@@ -392,6 +407,7 @@ public class Scene extends JPanel {
  		//intégration de la police de font
  		g2.setFont(police);
  		g2.drawString(this.score.getScore() + " pièce(s) trouvée(s) sur" + this.score.getNBR_TOTAL_SCORE(), 460, 25);
+ 		g2.drawString("Temps restant: " + this.decount.getCount(), 0, 25);
  
 	}
 }
