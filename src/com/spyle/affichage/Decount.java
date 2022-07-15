@@ -5,7 +5,7 @@ public class Decount implements Runnable {
 	//**** VARIABLES ****//
 	private final int INITIAL=100;
 	private final int PAUSE =1000;
-	private int count;
+ 	private int count;
 	
 	//**** CONSTRUCTEUR ****//
 	public Decount() {

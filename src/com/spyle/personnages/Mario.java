@@ -16,6 +16,7 @@ public class Mario extends Personnage{
 	private ImageIcon icoMario;
     private boolean saut; // vrai si mario saute
     private int compteurSaut; // durée du saut et hauteur du saut
+    private int compteurMort;
 	
 	//**** CONSTRUCTEUR	****//	
 	public Mario(int x, int y) {
@@ -25,6 +26,7 @@ public class Mario extends Personnage{
 	this.imgMario = this.icoMario.getImage();
 	
 	this.saut = false;
+	this.compteurMort = 0;
 	this.compteurSaut = 0;
 	}
 
@@ -125,11 +127,10 @@ public class Mario extends Personnage{
 			if(super.contactAvant(personnage) || super.contactArriere(personnage)) {			
 				this.setVivant(false);
 				this.setMarche(false);
+			} else if(super.contactDessous(personnage)) {
+				personnage.setMarche(false);
+				personnage.setVivant(false);
 			}
-		}
-		if(super.contactDessous(personnage)) {
-			personnage.setMarche(false);
-			personnage.setVivant(false);
 		}
 	}
 	
@@ -144,8 +145,12 @@ public class Mario extends Personnage{
 		Image img;
 		String str;
 		
-		str = "/images/marioMeurt.png";
-		
+		str = "/images/boom.png";
+		this.compteurMort++;
+		if(this.compteurMort>100) {
+			str ="/images/marioMeurt.png";
+			this.setY(this.getY() - 1);
+ 		}
 		ico = new ImageIcon(getClass().getResource(str));
 		img = ico.getImage();
 		

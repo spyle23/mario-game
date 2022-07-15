@@ -273,6 +273,20 @@ public class Scene extends JPanel {
 		return false;
 	}
 	
+	private boolean partiePerdue() {
+		if(!this.mario.isVivant() || this.decount.getCount() ==0) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean findPartie() {
+		if(this.partieGagne() || this.partiePerdue()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void deplacementFond(){ // Déplacement des images "fixes" de l'écran simulant le déplacement de mario 
 		
 		if(this.xPos >= 0 && this.xPos<=4330){
@@ -408,6 +422,17 @@ public class Scene extends JPanel {
  		g2.setFont(police);
  		g2.drawString(this.score.getScore() + " pièce(s) trouvée(s) sur" + this.score.getNBR_TOTAL_SCORE(), 460, 25);
  		g2.drawString("Temps restant: " + this.decount.getCount(), 0, 25);
+ 		
+ 		//fin de partie
+ 		if(this.findPartie()) {
+ 			Font policeFin = new Font("Arial", Font.BOLD, 50);
+ 			g2.setFont(policeFin);
+ 			if(this.partieGagne()) {
+ 				g2.drawString("Vous avez gagné!!", 120, 180);
+ 			}else if(this.partiePerdue()) {
+ 				g2.drawString("Vous avez perdu!!", 120, 180);
+ 			}
+ 		}
  
 	}
 }
